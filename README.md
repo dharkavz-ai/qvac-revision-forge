@@ -1,97 +1,67 @@
 # QVAC Revision Forge
 
-QVAC Revision Forge is a small local AI study tool that turns raw study notes into a focused revision pack.
+A local AI study tool that turns raw study notes into focused revision packs using Tether's QVAC SDK.
 
-It runs AI inference directly on the device using Tether's QVAC SDK. No cloud AI API is used for generation.
+QVAC Revision Forge runs AI inference locally on the device. It does not send study notes to a cloud AI service.
 
-## Features
+## What It Does
 
-* Paste raw study notes into a simple browser interface
-* Generate a structured revision pack locally
-* Extracts:
+Paste your study notes and Revision Forge generates a structured revision pack containing:
 
-  * Core idea
-  * Key concepts
-  * Common mistake
-  * 3 multiple-choice quiz questions
-  * Answer key
-* Uses QVAC for on-device AI inference
-* CPU-friendly configuration
-* Includes a Windows command-line quickstart
-* No external AI API keys required
+- **Core Idea** — a concise summary of the main topic
+- **Key Concepts** — the most important ideas from the notes
+- **Common Mistake** — a potential misunderstanding based on the provided notes
+- **Quiz** — 3 multiple-choice questions with 4 choices each
+- **Answer Key** — answers for the generated questions
+
+The app is designed to turn unstructured study material into something easier to review.
 
 ## QVAC SDK
 
 This project uses:
 
-```text
-@qvac/sdk@0.19.1
-```
+- **QVAC SDK:** `@qvac/sdk` `0.19.1`
+- **Model:** `LLAMA_3_2_1B_INST_Q4_0`
+- **QVAC functions:** `loadModel()`, `completion()`, and `unloadModel()`
 
-The application uses the following QVAC functions:
+The application loads the QVAC model locally and uses `completion()` to generate the revision pack.
 
-* `loadModel()`
-* `completion()`
-* `unloadModel()`
+## Features
 
-The local model used by the application is:
-
-```text
-LLAMA_3_2_1B_INST_Q4_0
-```
-
-The model is configured to run locally on the CPU.
-
-## How it works
-
-```text
-Study Notes
-     |
-     v
-Revision Forge
-     |
-     v
-QVAC loadModel()
-     |
-     v
-QVAC completion()
-     |
-     v
-Structured Revision Pack
-     |
-     v
-Browser Display
-```
-
-The generation prompt instructs the local model to treat the supplied study notes as its source of truth and avoid intentionally adding information that is not present in the notes.
+- Local AI inference
+- Browser-based interface
+- Command-line interface
+- Streaming AI output
+- Source-focused revision generation
+- No cloud AI API required
+- Simple Node.js setup
 
 ## Requirements
 
-* Windows, macOS, or Linux
-* Node.js 18+
-* npm
-* A machine capable of running the selected local QVAC model
+- Node.js
+- npm
+- A computer capable of running the selected local model
 
 ## Installation
 
 Clone the repository:
 
-```cmd
+```bash
 git clone https://github.com/dharkavz-ai/qvac-revision-forge.git
 cd qvac-revision-forge
 ```
 
 Install dependencies:
 
-```cmd
+```bash
 npm install
 ```
 
-## Run
+## Run the Web App
 
-Start the local server:
+Start the application:
 
-```cmd
+```bash
 npm start
 ```
 
@@ -101,133 +71,133 @@ Then open:
 http://localhost:3000
 ```
 
-## Command-line quickstart
+Paste your study notes into the text box and generate your revision pack.
 
-Windows users can use the included quickstart script:
+## Run the Command-Line Version
 
-```cmd
-quickstart.cmd
+You can also use Revision Forge directly from the terminal:
+
+```bash
+npm run forge
 ```
 
-The script installs the npm dependencies and starts the local server automatically.
+Paste your study notes into the terminal.
 
-Then open:
+When you are finished entering your notes, type:
 
 ```text
-http://localhost:3000
+EXIT
 ```
 
-Press `Ctrl+C` in the command window to stop the server.
+The application will load the local QVAC model and generate the revision pack.
+
+## How QVAC Is Used
+
+The core inference flow is:
+
+```text
+Study Notes
+    ↓
+QVAC loadModel()
+    ↓
+Local LLM
+    ↓
+QVAC completion()
+    ↓
+Revision Pack
+    ↓
+QVAC unloadModel()
+```
+
+The application uses QVAC to load a local model and generate the revision pack directly on the user's device.
+
+## Project Structure
+
+```text
+qvac-revision-forge/
+├── app.js          # Command-line interface
+├── server.js       # Web server and QVAC inference
+├── package.json    # Project configuration and dependencies
+├── quickstart.cmd  # Windows quickstart
+├── LICENSE.txt     # MIT License
+└── README.md       # Project documentation
+```
 
 ## Example
 
-Example study notes:
+### Input
 
 ```text
-Photosynthesis is the process plants use to convert light energy into chemical energy.
-Chlorophyll absorbs light, mainly in the blue and red parts of the spectrum.
-Carbon dioxide enters through stomata, while water is absorbed by the roots.
-The light-dependent reactions produce ATP and NADPH.
-The Calvin cycle uses ATP and NADPH to help build sugars.
-Oxygen is released as a byproduct of splitting water.
+Photosynthesis is the process by which green plants use
+light energy to convert carbon dioxide and water into
+chemical energy stored as glucose. Oxygen is released
+as a by-product.
 ```
 
-Revision Forge turns notes like these into a compact revision pack containing:
+### Generated Revision Pack
 
 ```text
 CORE IDEA
 
+Photosynthesis uses light energy to convert carbon dioxide
+and water into chemical energy stored as glucose.
+
 KEY CONCEPTS
+
+1. Light energy
+2. Carbon dioxide
+3. Water
+4. Glucose
+5. Oxygen
 
 COMMON MISTAKE
 
+Confusing glucose with oxygen. Glucose is the chemical
+energy storage product described in the notes, while
+oxygen is released as a by-product.
+
 QUIZ
 
+1. What process is described in the notes?
+
+A. Photosynthesis
+B. Respiration
+C. Digestion
+D. Fermentation
+
+2. What is stored as chemical energy?
+
+A. Water
+B. Oxygen
+C. Glucose
+D. Carbon dioxide
+
+3. What is released as a by-product?
+
+A. Glucose
+B. Oxygen
+C. Water
+D. Light
+
 ANSWER KEY
+
+1. A
+2. C
+3. B
 ```
 
-## Source-focused generation
+## Why I Built It
 
-Revision Forge is designed around the supplied study material.
+I built QVAC Revision Forge to explore how local AI can be used to turn everyday study notes into useful revision material while keeping the inference on the user's device.
 
-The application sends the notes to the local QVAC model with instructions to:
-
-1. Treat the provided notes as the source of truth.
-2. Use information from the notes when generating the revision pack.
-3. Avoid intentionally adding unrelated outside facts.
-4. Use `Not stated in the notes.` when the requested information cannot be supported by the provided material.
-
-This makes the tool useful for turning a student's existing notes into revision material without sending the notes to a cloud AI service.
-
-## Standalone CLI test
-
-The QVAC generation logic can also be tested directly:
-
-```cmd
-node app.js
-```
-
-This runs a local generation test using the same QVAC model and inference flow.
-
-## Project structure
-
-```text
-qvac-revision-forge/
-├── app.js
-├── server.js
-├── index.html
-├── quickstart.cmd
-├── package.json
-├── package-lock.json
-├── LICENSE.txt
-├── README.md
-└── .gitignore
-```
-
-### Main files
-
-**`server.js`**
-
-Runs the local HTTP server and handles revision-pack generation requests.
-
-**`app.js`**
-
-Contains the standalone QVAC model-loading and completion flow.
-
-**`index.html`**
-
-Provides the browser interface for entering notes and viewing the generated revision pack.
-
-**`quickstart.cmd`**
-
-Provides a Windows command-line shortcut for installing dependencies and starting the application.
-
-## Privacy
-
-Study notes are processed by the local QVAC model running on the user's device.
-
-The application does not require a cloud AI API key for inference.
-
-## Limitations
-
-Local model output can vary depending on the quality and amount of study material provided.
-
-For better results, provide complete and specific notes rather than very short fragments.
-
-The selected model is intentionally small enough for local experimentation, so its responses may be less capable than larger cloud-based models.
-
-## License
+## Open Source
 
 This project is released under the MIT License.
 
-## QVAC resources
+## Project Status
 
-* QVAC SDK
-* QVAC documentation
-* QVAC examples
-* QVAC source repository
+Built as an open-source project for the QVAC SDK challenge.
 
-## Project status
+## Repository
 
-This is an open-source QVAC SDK challenge project demonstrating local AI inference through a practical study workflow.
-
+https://github.com/dharkavz-ai/qvac-revision-forge

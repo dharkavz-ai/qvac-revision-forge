@@ -77,7 +77,7 @@ The generation prompt instructs the local model to treat the supplied study note
 Clone the repository:
 
 ```cmd
-git clone https://github.com/esmerenghoy497-cloud/qvac-revision-forge.git
+git clone https://github.com/dharkavz-ai/qvac-revision-forge.git
 cd qvac-revision-forge
 ```
 
@@ -230,3 +230,4 @@ This project is released under the MIT License.
 ## Project status
 
 This is an open-source QVAC SDK challenge project demonstrating local AI inference through a practical study workflow.
+
